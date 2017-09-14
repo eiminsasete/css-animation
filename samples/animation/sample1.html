@@ -1,0 +1,36 @@
+<style>
+.animation-sample-1{
+    display: inline-block;
+    background-color:rgb(49, 176, 213);
+    border:none;
+    width: 100px;
+    height: 100px;
+    transition: 3s;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 100px;
+    font-size: 4rem;
+    color: white;
+    animation: rotation 2s ease 0s infinite alternate;
+}
+@keyframes rotation {
+    0% {
+    transform: scale(.3);
+    }
+    50% {
+    transform: scale(.6) rotate(-180deg);
+    background: rgb(176, 213, 49)
+    }
+    100% {
+    transform: scale(1) rotate(360deg);
+    background: rgb(213, 49, 176);
+    }
+}
+</style>
+
+<div class="animation-sample-1-wrapper">
+    <div class="animation-sample-1">X</div>      
+    <div class="animation-sample-1">Y</div>      
+    <div class="animation-sample-1">Z</div>     
+</div>

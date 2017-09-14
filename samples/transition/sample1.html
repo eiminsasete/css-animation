@@ -1,0 +1,45 @@
+<style>
+.transition-sample-1{
+    position: relative;
+    display: block;
+    width: 224px;
+    height: 80px;
+    margin: auto;
+    padding: 0;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    color: #76D3F4;
+    background-color: #EEE;
+    border-radius: 20px;
+    outline: none;
+    overflow: hidden;
+    border: none;
+}
+.transition-sample-1 > span{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    overflow: hidden;
+    transition: width 1s ease 0s;
+}
+.transition-sample-1 span span {
+    display: block;
+    width: 224px;
+    height: 80px;
+    line-height: 80px;
+    color: #fff;
+    background-color: #76D3F4;
+    border-radius: 20px;
+}
+.transition-sample-1:hover > span{
+    width: 100%;
+}
+</style>
+
+<button class="transition-sample-1">Button
+<span>
+    <span>Button</span>
+</span>
+</button>

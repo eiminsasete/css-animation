@@ -1,0 +1,40 @@
+    <style>
+    .transform-sample-1{
+      display: block;
+      background-color: #76D3F4;
+      width: 224px;
+      height: 80px;
+      transition: 1s;
+      color: #FFF;
+      text-align: center;
+      border: none;
+      margin: 3px;
+      border-radius: 20px;
+    }
+    .transform-sample-1:nth-of-type(0){
+      transition-timing-function: ease;
+    }
+    .transform-sample-1:nth-of-type(1){
+      transition-timing-function: ease-in;
+    }
+    .transform-sample-1:nth-of-type(2){
+      transition-timing-function: ease-out;
+    }
+    .transform-sample-1:nth-of-type(3){
+      transition-timing-function: ease-in-out;
+    }
+    .transform-sample-1:nth-of-type(4){
+      transition-timing-function: linear;
+    }
+    .transform-sample-1-wrapper:hover > .transform-sample-1{
+      transform: translateX(300px)
+    }
+    </style>
+    
+    <div class="transform-sample-1-wrapper">
+      <button class="transform-sample-1">ease</button>
+      <button class="transform-sample-1">ease-in</button>
+      <button class="transform-sample-1">ease-out</button>
+      <button class="transform-sample-1">ease-in-out</button>
+      <button class="transform-sample-1">linear</button>
+    </div>

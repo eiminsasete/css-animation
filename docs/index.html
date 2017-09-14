@@ -1,0 +1,1592 @@
+<!--
+Copyright (C) 2017 Harada Tsubasa
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+<!DOCTYPE html>
+<meta charset='utf-8'>
+<!--meta tag supported by google (check https://support.google.com/webmasters/answer/79812?hl=ja)-->
+<meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no'>
+<meta name="copyright" content="Copyright &copy; 2017 Harada Tsubasa. All Rights Reserved.">
+<title>CSS Animation</title>
+<!--jquery(check https://developers.google.com/speed/libraries/)-->
+<script src='//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<!--bootstarap(check https://www.bootstrapcdn.com/)-->
+<link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+<script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+<!--highclight-->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/atom-one-dark.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+<script src="./app.js"></script>
+<script>
+window.onload = function(){
+    $('pre:has(code)').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+    $('h1, h2, h3').addClass('page-header');
+    
+    
+    var $nav = $(".sidenav-nav ul"),
+        $contents = $(".sidenav-content-wrapper");
+    $contents.find('h1, h2, h3').each(function(){
+        var $header = $(this),
+            text = $(this).text(),
+            id = $(this).attr("id");
+        if($header.is("h1")){
+            $nav.append('<li><b><a href=#'+id+'>'+text+'</a></b></li>');                  
+        }else if($header.is("h2")){
+            $nav.append('<li><a href=#'+id+'>'+text+'</a></li>');        
+        } else if($header.is("h3")){
+            $nav.append('<li><a href=#'+id+'>・'+text+'</a></li>');        
+        }
+    });    
+};
+</script>
+
+<style>
+    .sidenav-nav{
+        position: fixed;
+        width: 25%;
+        height: 100%;
+    }
+    .sidenav-content-wrapper{
+        position: absolute;
+        width: 75%;
+        left: 25%;
+        height: 100%;
+    }
+</style>
+<article ng-app="myApp">
+        <nav class="sidenav-nav container">
+            <ul class="nav nav-pills nav-stacked">
+            </ul>
+        </nav>
+        <div class="sidenav-content-wrapper container">
+            <section class="sidenav-content">
+
+<h1>CSS Animation</h1>
+<h2 id="transition">transition</h2>
+<p>trasitionプロパティとは、時間的変化をまとめて指定するためのもので、以下の4つのプロパティを含んでいます。</p>
+<p><table class='table'>
+    <caption>表：transitionの内包するプロパティ</caption>
+    <thead>
+        <tr>
+            <th>プロパティ</th>
+            <th>値</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>transition-property</th>
+            <td>
+                <p>時間的変化を適用するCSSプロパティを指定します。</p>
+                <table class='table'>
+                    <caption>表：transition-propzertyプロパティに指定できる値</caption>
+                    <thead>
+                        <tr>
+                            <th>値</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>all</th>
+                            <td>全てのプロパティ（初期値）</td>
+                        </tr>
+                        <tr>
+                            <th>none</th>
+                            <td>どのプロパティも変化しない</td>
+                        </tr>
+                        <tr>
+                            <th>プロパティ名</th>
+                            <td>記述したプロパティ。<br>カンマ区切りで複数指定可能</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <figure class="figure">
+                    <figcaption  class="figure-caption">図：transition-propertyの記述例</figcaption></p>
+<p><pre><code class="css">.transition-animate{transition-property: none;}
+.transition-animate.active{transition-property: color, width, height;}
+.transition-animate.active:hover{transition-property: all;}
+</code></pre>
+                </figure>
+            </td>
+        </tr>
+        <tr>
+            <th>transition-duration</th>
+                <td>
+                    <p>変化に掛かる時間を指定する</p>
+                    <p>値は初期値が0</p>
+                    <p>単位はs（秒）またはms（ミリ秒）</p>
+                    <figure class="figure">
+                        <figcaption class="figure-caption">図：transition-durationの記述例</figcaption>
+                        <pre><code class="css">.transition-animate{transition-duration: 3s}</code></pre>
+                    </figure>
+                </td>
+            </tr>
+            <tr>
+                <th>transition-timing-function</th>
+                <td>
+                    <p>変化のタイミングを指定します。</p>
+                    <table class='table'>
+                        <caption>表：transition-timing-functionに指定できる値</caption>
+                        <thead>
+                            <tr>
+                                <th>値</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>ease</th>
+                            <td>最初と最後が滑らかに変化（初期値）</td>
+                        </tr>
+                        <tr>
+                            <th>linear</th>
+                            <td>一定に変化</td>
+                        </tr>
+                        <tr>
+                            <th>ease-in</th>
+                            <td>最初のみゆっくり</td>
+                        </tr>
+                        <tr>
+                            <th>ease-out</th>
+                            <td>最後のみゆっくり</td>
+                        </tr>
+                        <tr>
+                            <th>ease-in-out</th>
+                            <td>最初と最後でゆっくり</td>
+                        </tr>
+                        <tr>
+                            <th>cubic-bezier(<i>i, i, i, i</i>)</th>
+                            <td>3次ベジェ曲線で変化を指定する。<i><b>i</b></i>は0.0から1.0の正の値。</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <figure class="figure">
+                    <figcaption class="figure-caption ">図：transition-timig-functionの記述例</figcaption>
+                    <pre><code>.transition-animate{transition-timing-function:ease-in-out}</code></pre>
+                </figure>
+            </td>
+        </tr>
+        <tr>
+            <th>transition-delay</th>
+            <td>
+                <p>変化の始まるタイミングを指定します。</p>
+                <p>値は初期値が0</p>
+                <p>単位はs（秒）またはms（ミリ秒）</p>
+                <p>負の値を指定すると、時間をさかのぼって即変化が始まる。</p>
+                <figure class="figure">
+                <figcaption class="figure-caption ">図：transition-delayの記述例</figcaption>
+                <pre><code>.transition-animate{transition-delay:2s}</code></pre>
+                </figure><br>            </td>
+        </tr>
+    </tbody>
+</table></p>
+<figure class='figure'>
+    <figcaption class='figure-caption'>図：transitionの記述法</figcaption>
+    <pre><code class="css">.transition-animate{transition: {property} {duration} {timing} {delay}}
+.transition-animate{transition: {property} {duration}}
+.transition-animate{transition: {duration}}
+// ここでtransitionプロパティの各値{＊}はtransition-＊プロパティの値 </code></pre>
+</figure>
+<figure class='figure'>
+    <figcaption class='figure-caption'>図：transitionの記述例</figcaption>
+    <pre><code>* { transition: all 3s linear 0 }
+.transition-animate {
+  transition: background-color 1s linear 0 , width 1s ease-in 0 , height 1s ease-out 0;
+}</code></pre>
+</figure>
+
+<section>
+    <h3 id="transition-width">transition + width</h3>
+    <p>サンプル</p>
+    <p>「Button」と書かれたところにカーソル（マウスポインタ）を合わせて（ホバーして）ください。
+    </p>
+
+    <style>
+    .transition-sample-1{
+        position: relative;
+        display: block;
+        width: 224px;
+        height: 80px;
+        margin: auto;
+        padding: 0;
+        font-size: 16px;
+        letter-spacing: 0.15em;
+        color: #76D3F4;
+        background-color: #EEE;
+        border-radius: 20px;
+        outline: none;
+        overflow: hidden;
+        border: none;
+    }
+    .transition-sample-1 > span{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        overflow: hidden;
+        transition: width 1s ease 0s;
+    }
+    .transition-sample-1 span span {
+        display: block;
+        width: 224px;
+        height: 80px;
+        line-height: 80px;
+        color: #fff;
+        background-color: #76D3F4;
+        border-radius: 20px;
+    }
+    .transition-sample-1:hover > span{
+        width: 100%;
+    }
+    </style>
+
+    <button class="transition-sample-1">Button
+    <span>
+        <span>Button</span>
+    </span>
+    </button>
+
+    <figure class='figure'>
+        <figcaption class='figure-caption'>図：サンプルのソース</figcaption>
+        <pre><code>&lt;button class="transition-sample-1"&gt;Button
+  &lt;span&gt;
+    &lt;span&gt;Button&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/button&gt;</code></pre>
+    </figure>
+
+    <p>このサンプルのソースによってできるHTML要素にCSSを付加してサンプルのアニメーションを実現しましょう。</p>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> コピペは禁止です。
+      </div>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> まずはヒントを見ないでやってみましょう。
+      </div>
+
+      <div class="alert alert-info alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>情報</strong> できたと思ったら講師を呼んでください。
+      </div>
+
+
+    <form ng-controller="myController">
+        <label for="qwer" class="btn btn-info" ng-hide="qwer">ヒントを見る
+            <input style="display:none"id="qwer"type="checkbox" ng-model="qwer" />
+        </label>
+        <div ng-show="qwer">
+            <p class="page-header">ヒント</p>
+            <figure class='figure'>
+                <figcaption class='figure-caption'>図：変化前のCSS</figcaption>
+                    <pre><code>.transition-sample-1{
+        position: relative;
+        display: block;
+        width: 224px;
+        height: 80px;
+        margin: auto;
+        padding: 0;
+        font-size: 16px;
+        letter-spacing: 0.15em;
+        color: #ebc000;
+        background-color: #EEE;
+        border-radius: 20px;
+        outline: none;
+        overflow: hidden;
+        border: none;
+    }
+    .transition-sample-1 > span{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+    .transition-sample-1 span span {
+        display: block;
+        width: 224px;
+        height: 80px;
+        line-height: 80px;
+        color: #fff;
+        background-color: #76D3F4;
+        border-radius: 20px;
+    }</code></pre>
+            </figure>
+            <figure class='figure'ng-show="qwer">
+                <figcaption class='figure-caption'>図：変化後のCSS</figcaption>
+                <pre><code>.transition-sample-1{
+        position: relative;
+        display: block;
+        width: 224px;
+        height: 80px;
+        margin: auto;
+        padding: 0;
+        font-size: 16px;
+        letter-spacing: 0.15em;
+        color: #76D3F4;
+        background-color: #EEE;
+        border-radius: 20px;
+        outline: none;
+        overflow: hidden;
+        border: none;
+    }
+    .transition-sample-1 > span{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    .transition-sample-1 span span {
+        display: block;
+        width: 224px;
+        height: 80px;
+        line-height: 80px;
+        color: #fff;
+        background-color: #76D3F4;
+        border-radius: 20px;
+    }</code></pre>
+            </figure>
+        </div>
+    </form>
+
+</section>
+
+
+<section>
+    <h3 id="transition-border">transition + border</h3>
+    <p>サンプル</p>
+
+    <style>
+    .transition-sample-2{
+        position: relative;
+        display: block;
+        width: 224px;
+        height: 80px;
+        margin: auto;
+        padding: 0;
+        font-size: 16px;
+        letter-spacing: 0.15em;
+        color: #FFF;
+        background-color: #76D3F4;
+        border-radius: 20px;
+        outline: none;
+        overflow: hidden;
+        box-sizing: border-box;
+        border: 0px solid #76D3F4;
+        transition: border-width linear .3s;
+    }
+    .transition-sample-2:hover{
+        color:#76D3F4;
+        border-width: 10px;
+        background-color: #FFF;
+    }
+    </style>
+    <button class="transition-sample-2">Button</button>
+
+    <figure class='figure'>
+        <figcaption class='figure-caption'>図：サンプルのソース</figcaption>
+        <pre><code>&lt;button class="transition-sample-2"&gt;Button&lt;/button&gt;</code></pre>
+    </figure>
+
+    <p>このサンプルのソースによってできるHTML要素にCSSを付加してサンプルのアニメーションを実現しましょう。</p>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> コピペは禁止です。
+      </div>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> まずはヒントを見ないでやってみましょう。
+      </div>
+
+      <div class="alert alert-info alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>情報</strong> できたと思ったら講師を呼んでください。
+      </div>
+
+    <form ng-controller="myController">
+        <label for="qwer2" class="btn btn-info" ng-hide="qwer2">ヒントを見る
+            <input style="display:none"id="qwer2"type="checkbox" ng-model="qwer2" />
+        </label>
+        <div ng-show="qwer2">
+            <p class="page-header">ヒント</p>
+                  <figure class='figure'>
+                    <figcaption class='figure-caption'>図：変化前のCSS</figcaption>
+                      <pre><code>.transition-sample-2{
+        position: relative;
+        display: block;
+        width: 224px;
+        height: 80px;
+        margin: auto;
+        padding: 0;
+        font-size: 16px;
+        letter-spacing: 0.15em;
+        color: #FFF;
+        background-color: #76D3F4;
+        border-radius: 20px;
+        outline: none;
+        overflow: hidden;
+        box-sizing: border-box;
+        border: 0px solid #76D3F4;
+    }</code></pre>
+    </figure>
+    <figure class='figure'>
+        <figcaption class='figure-caption'>図：変化後のCSS</figcaption>
+            <pre><code>.transition-sample-2{
+        position: relative;
+        display: block;
+        width: 224px;
+        height: 80px;
+        margin: auto;
+        padding: 0;
+        font-size: 16px;
+        letter-spacing: 0.15em;
+        color:#76D3F4;
+        background-color: #FFF;    
+        border-radius: 20px;
+        outline: none;
+        overflow: hidden;
+        box-sizing: border-box;
+        border: 0px solid #76D3F4;
+        border-width: 10px;
+    }</code></pre>
+          </figure>   
+        </div>
+    </form>
+</section>
+
+<section>
+    <h3 id="transition-text-shadow">transition + text-shadow</h3>
+    <p>サンプル</p>
+
+    <style>
+    .transition-sample-3{
+        position: relative;
+        display: block;
+        width: 224px;
+        height: 80px;
+        margin: auto;
+        padding: 0;
+        font-size: 16px;
+        letter-spacing: 0.15em;
+        background-color: #76D3F4;
+        border: none;
+        border-radius: 20px;
+        outline: none;
+        text-align: center;
+    }
+    .transition-sample-3 a{
+        position: relative;
+        left: 0px;
+        top: 0px;
+        display: block;
+        width: 224px;
+        height: 80px;
+        line-height: 80px;
+        color: #FFF;
+        text-shadow: 2px 3px 2px #333;
+        text-decoration: none;
+        transition: all 0.2s linear 0;
+    }
+    .transition-sample-3 a:hover{
+        left: 1px;
+        top: 2px;
+        color: #333;
+        text-shadow: 2px 3px 2px #EEE;
+    }
+    </style>
+    <button class="transition-sample-3"><a>Button</a></button>
+
+    <figure class='figure'>
+        <figcaption class='figure-caption'>図：サンプルのソース</figcaption>
+        <pre><code>&lt;button class="transition-sample-3"&gt;&lt;a&gt;Button&lt;/a&gt;&lt;/button&gt;</code></pre>
+    </figure>
+
+    <p>このサンプルのソースによってできるHTML要素にCSSを付加してサンプルのアニメーションを実現しましょう。</p>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> コピペは禁止です。
+      </div>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> まずはヒントを見ないでやってみましょう。
+      </div>
+
+      <div class="alert alert-info alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>情報</strong> できたと思ったら講師を呼んでください。
+      </div>
+
+    <form ng-controller="myController">
+        <label for="qwer3" class="btn btn-info" ng-hide="qwer2">ヒントを見る
+            <input style="display:none"id="qwer3"type="checkbox" ng-model="qwer3" />
+        </label>
+        <div ng-show="qwer3">
+            <p class="page-header">ヒント</p>
+                  <figure class='figure'>
+                    <figcaption class='figure-caption'>図：変化前のCSS</figcaption>
+                      <pre><code>.transition-sample-3{
+    position: relative;
+    display: block;
+    width: 224px;
+    height: 80px;
+    margin: auto;
+    padding: 0;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    background-color: #76D3F4;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    text-align: center;
+}
+.transition-sample-3 a{
+    position: relative;
+    left: 0px;
+    top: 0px;
+    display: block;
+    width: 224px;
+    height: 80px;
+    line-height: 80px;
+    color: #FFF;
+    text-shadow: 2px 3px 2px #333;
+    text-decoration: none;
+}</code></pre>
+    </figure>
+    <figure class='figure'>
+        <figcaption class='figure-caption'>図：変化後のCSS</figcaption>
+            <pre><code>.transition-sample-3{
+    position: relative;
+    display: block;
+    width: 224px;
+    height: 80px;
+    margin: auto;
+    padding: 0;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    background-color: #76D3F4;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    text-align: center;
+}
+.transition-sample-3 a{
+    position: relative;
+    left: 1px;
+    top: 2px;
+    color: #333;
+    text-shadow: 2px 3px 2px #EEE;
+    display: block;
+    width: 224px;
+    height: 80px;
+    line-height: 80px;
+    text-decoration: none;
+}</code></pre>
+          </figure>   
+        </div>
+    </form>
+</section>
+<section>
+    <h2 id="transform">transform</h2>
+    <p>transformプロパティは、要素を二次元または三次元的に変形するためのもので、回転、拡大・縮小、平行移動、剪断及びこれらを内包するマトリクス変形、遠近効果を適用できます。</p>
+    <p>transformプロパティでは値にnone（初期値）またはtransform関数を用います。またホワイトスペースで区切って複数指定することも可能です。</p>
+    <table class='table'>
+      <caption>表：transform関数一覧表</caption>
+      <thead>
+        <tr>
+          <th>transform関数</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>
+            translate系
+            <ul>
+              <li>translateX(<i>d<sub>X</sub></i>)</li>
+              <li>translateY(<i>d<sub>Y</sub></i>)</li>
+              <li>translateZ(<i>d<sub>Z</sub></i>)</li>
+              <li>translate(<i>d<sub>X</sub></i>,<i>d<sub>Y</sub></i>)</li>
+              <li>translate3d(<i>d<sub>X</sub></i>,<i>d<sub>Y</sub></i>,<i>d<sub>Z</sub></i>)</li>
+            </ul>
+          </th>
+          <td>
+            <p><i>K=X,Y,Z</i>として引数<i>d<sub>K</sub></i>は<i>K</i>軸への移動距離です。</p>
+            <p>transform関数のtranslate系は<i>K</i>軸方向に<i>d<sub>K</sub></i>だけ要素を平行移動させます。</p>
+            <p>引数の単位は長さ系（px,em,remなど）とパーセント(%)です。<br>ただしZ軸ではパーセントは無効です。</p>
+            <p>Z軸方向への操作にはtransform関数perspectiveの併用が必須です。</p>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            scale系
+            <ul>
+              <li>scaleX(<i>p<sub>X</sub></i>)</li>
+              <li>scaleY(<i>p<sub>Y</sub></i>)</li>
+              <li>scaleZ(<i>p<sub>Z</sub></i>)</li>
+              <li>scale(<i>p<sub>X</sub></i>,<i>p<sub>Y</sub></i>)</li>
+              <li>scale3d(<i>p<sub>X</sub></i>,<i>p<sub>Y</sub></i>,<i>p<sub>Z</sub></i>)</li>
+            </ul>
+          </th>
+          <td>
+            <p><i>K=X,Y,Z</i>として引数<i>p<sub>K</sub></i>は<i>K</i>軸方向の倍率です。</p>
+            <p>transform関数のscale系は<i>K</i>軸方向に要素を<i>p<sub>K</sub></i>倍にします。</p>
+            <p>引数の単位はありません。</p>
+            <div class="translate-sample-1-wrapper">
+              <div class="translate-sample-1-inner"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            rotate系
+            <ul>
+              <li>rotateX(<i>a<sub>X</sub></i>)</li>
+              <li>rotateY(<i>a<sub>Y</sub></i>)</li>
+              <li>rotateZ(<i>a<sub>Z</sub></i>)</li>
+              <li>rotate(<i>a<sub>X</sub></i>,<i>a<sub>Y</sub></i>)</li>
+              <li>rotate3d(<i>a<sub>X</sub></i>,<i>a<sub>Y</sub></i>,<i>a<sub>Z</sub></i>)</li>
+            </ul>
+          </th>
+          <td>
+            <p><i>K=X,Y,Z</i>として引数<i>a<sub>K</sub></i>は<i>K</i>軸を軸とした回転する角度。</p>
+            <p>transform関数のrotate系は<i>K</i>軸を軸として要素を<i>a<sub>K</sub></i>度回転させます。</p>
+            <p>引数の単位は角度(deg)です。</p>
+            <div class="translate-sample-1-wrapper">
+              <div class="translate-sample-1-inner"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            skew系
+            <ul>
+              <li>skewX(<i>a<sub>X</sub></i>)</li>
+              <li>skewY(<i>a<sub>Y</sub></i>)</li>
+              <li>skew(<i>a<sub>X</sub></i>,<i>a<sub>Y</sub></i>)</li>
+            </ul>
+          </th>
+          <td>
+            <p><i>K=X,Y,Z</i>として引数<i>a<sub>K</sub></i>は<i>K</i>軸に沿って傾く角度。</p>
+            <p>transform関数のskew系は<i>K</i>軸に沿って要素を<i>a<sub>K</sub></i>度傾けさせます。</p>
+            <p>引数の単位は角度(deg)です。</p>
+            <div class="translate-sample-1-wrapper">
+              <div class="translate-sample-1-inner"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            perspective系
+            <ul>
+              <li>skewX(<i>a<sub>X</sub></i>)</li>
+              <li>skewY(<i>a<sub>Y</sub></i>)</li>
+              <li>skew(<i>a<sub>X</sub></i>,<i>a<sub>Y</sub></i>)</li>
+            </ul>
+          </th>
+          <td>
+            <p><i>K=X,Y,Z</i>として引数<i>a<sub>K</sub></i>は<i>K</i>軸に沿って傾く角度。</p>
+            <p>transform関数のskew系は<i>K</i>軸に沿って要素を<i>a<sub>K</sub></i>度傾けさせます。</p>
+            <p>引数の単位は角度(deg)です。</p>
+            <div class="translate-sample-1-wrapper">
+              <div class="translate-sample-1-inner"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</section>
+
+<section>
+    <h3 id="transition-translate">transition + translate</h3>
+    <p>サンプル</p>
+
+    <style>
+    .transform-sample-1{
+      display: block;
+      background-color: #76D3F4;
+      width: 224px;
+      height: 80px;
+      transition: 1s;
+      color: #FFF;
+      text-align: center;
+      border: none;
+      margin: 3px;
+      border-radius: 20px;
+    }
+    .transform-sample-1:nth-of-type(0){
+      transition-timing-function: ease;
+    }
+    .transform-sample-1:nth-of-type(1){
+      transition-timing-function: ease-in;
+    }
+    .transform-sample-1:nth-of-type(2){
+      transition-timing-function: ease-out;
+    }
+    .transform-sample-1:nth-of-type(3){
+      transition-timing-function: ease-in-out;
+    }
+    .transform-sample-1:nth-of-type(4){
+      transition-timing-function: linear;
+    }
+    .transform-sample-1-wrapper:hover > .transform-sample-1{
+      transform: translateX(300px)
+    }
+    </style>
+    
+    <div class="transform-sample-1-wrapper">
+      <button class="transform-sample-1">ease</button>
+      <button class="transform-sample-1">ease-in</button>
+      <button class="transform-sample-1">ease-out</button>
+      <button class="transform-sample-1">ease-in-out</button>
+      <button class="transform-sample-1">linear</button>
+    </div>
+
+    <figure class='figure'>
+        <figcaption class='figure-caption'>図：サンプルのソース</figcaption>
+        <pre class="html"><code>&lt;div class="transform-sample-1-wrapper"&gt;
+  &lt;button class="transform-sample-1"&gt;ease&lt;/button&gt;
+  &lt;button class="transform-sample-1"&gt;ease-in&lt;/button&gt;
+  &lt;button class="transform-sample-1"&gt;ease-out&lt;/button&gt;
+  &lt;button class="transform-sample-1"&gt;ease-in-out&lt;/button&gt;
+  &lt;button class="transform-sample-1"&gt;linear&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+
+    <p>このサンプルのソースによってできるHTML要素にCSSを付加してサンプルのアニメーションを実現しましょう。</p>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> コピペは禁止です。
+      </div>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> まずはヒントを見ないでやってみましょう。
+      </div>
+
+      <div class="alert alert-info alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>情報</strong> できたと思ったら講師を呼んでください。
+      </div>
+
+    <form ng-controller="myController">
+        <label for="transone" class="btn btn-info" ng-hide="transone">ヒントを見る
+            <input style="display:none"id="transone"type="checkbox" ng-model="transone" />
+        </label>
+        <div ng-show="transone">
+            <p class="page-header">ヒント</p>
+                  <figure class='figure'>
+                    <figcaption class='figure-caption'>図：CSSの一部</figcaption>
+                      <pre><code class="css">.transform-sample-1{
+  display: block;
+  background-color: #76D3F4;
+  width: 224px;
+  height: 80px;
+  color: #FFF;
+  text-align: center;
+  border: none;
+  border-radius: 20px;
+  margin: 3px;
+  *** : ***;
+}
+.transform-sample-1:nth-of-type(0){
+  *** : ***;
+}
+.transform-sample-1:nth-of-type(1){
+  *** : ***;
+}
+.transform-sample-1:nth-of-type(2){
+  *** : ***;
+}
+.transform-sample-1:nth-of-type(3){
+  *** : ***;
+}
+.transform-sample-1:nth-of-type(4){
+  *** : ***;
+}
+.transform-sample-1-wrapper:hover > .transform-sample-1{
+  *** : ***;
+}</code></pre>
+    </figure>
+        </div>
+    </form>
+</section>
+
+<section>
+    <h3 id="transition-scale">transition + scale</h3>
+    <p>サンプル</p>
+
+    <style>
+    .transform-sample-2-wrapper{
+      position: relative;
+      height: 250px;
+      width: 250px;
+    }
+    .transform-sample-2{
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+      background-color:rgba(49, 176, 213,.3);
+      border:none;
+      width: 50px;
+      height: 50px;
+      transition: 1s;
+      border-radius: 50%;
+    }
+    .transform-sample-2:nth-of-type(0){
+      transition-delay: .1s;
+    }
+    .transform-sample-2:nth-of-type(1){
+      transition-delay: .2s;
+    }
+    .transform-sample-2:nth-of-type(2){
+      transition-delay: .3s;
+    }
+    .transform-sample-2:nth-of-type(3){
+      transition-delay: .4s;
+    }
+    .transform-sample-2:nth-of-type(4){
+      transition-delay: .5s;
+    }
+    .transform-sample-2-wrapper:hover .transform-sample-2{
+      transform: scale(5.0);
+    }
+    </style>
+    
+    <div class="transform-sample-2-wrapper">
+      <div class="transform-sample-2"></div>      
+      <div class="transform-sample-2"></div>      
+      <div class="transform-sample-2"></div>      
+      <div class="transform-sample-2"></div>
+    </div>
+
+    <figure class='figure'>
+        <figcaption class='figure-caption'>図：サンプルのソース</figcaption>
+        <pre class="html"><code>&lt;div class="transform-sample-2-wrapper"&gt;
+  &lt;div class="transform-sample-2"&gt;&lt;/div&gt;      
+  &lt;div class="transform-sample-2"&gt;&lt;/div&gt;      
+  &lt;div class="transform-sample-2"&gt;&lt;/div&gt;      
+  &lt;div class="transform-sample-2"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+
+    <p>このサンプルのソースによってできるHTML要素にCSSを付加してサンプルのアニメーションを実現しましょう。</p>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> コピペは禁止です。
+      </div>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> まずはヒントを見ないでやってみましょう。
+      </div>
+
+      <div class="alert alert-info alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>情報</strong> できたと思ったら講師を呼んでください。
+      </div>
+
+    <form ng-controller="myController">
+        <label for="transtwo" class="btn btn-info" ng-hide="transtwo">ヒントを見る
+            <input style="display:none"id="transtwo"type="checkbox" ng-model="transtwo" />
+        </label>
+        <div ng-show="transtwo">
+            <p class="page-header">ヒント</p>
+                  <figure class='figure'>
+                    <figcaption class='figure-caption'>図：CSSの一部</figcaption>
+                      <pre class="css"><code>.transform-sample-2-wrapper{
+    position: relative;
+    height: 250px;
+    width: 250px;
+  }
+  .transform-sample-2{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    background-color:rgba(49, 176, 213,.3);
+    border:none;
+    width: 50px;
+    height: 50px;
+    ***: ***;
+    border-radius: 50%;
+  }
+  .transform-sample-2:nth-of-type(0){
+    ***: ***;
+  }
+  .transform-sample-2:nth-of-type(1){
+    ***: ***;
+  }
+  .transform-sample-2:nth-of-type(2){
+    ***: ***;
+  }
+  .transform-sample-2:nth-of-type(3){
+    ***: ***;
+  }
+  .transform-sample-2:nth-of-type(4){ 
+    ***: ***;
+  }
+  .transform-sample-2-wrapper:hover .transform-sample-2{
+    ***: ***;
+  }</code></pre>
+    </figure>
+        </div>
+    </form>
+</section>
+
+<section>
+    <h3 id="transition-rotate">transition + rotate</h3>
+    <p>サンプル</p>
+
+    <style>
+    .transform-sample-3{
+      display: inline-block;
+      background-color:rgb(49, 176, 213);
+      border:none;
+      width: 100px;
+      height: 100px;
+      transition: 3s;
+      border-radius: 50%;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 100px;
+      font-size: 4rem;
+      color: white;
+    }
+    .transform-sample-3-wrapper:hover .transform-sample-3.rotateX{
+      transform: rotateX(1440deg);
+    }
+    .transform-sample-3-wrapper:hover .transform-sample-3.rotateY{
+      transform: rotateY(1440deg);
+    }
+    .transform-sample-3-wrapper:hover .transform-sample-3.rotateZ{
+      transform: rotateZ(1440deg);
+    }
+    </style>
+    
+    <div class="transform-sample-3-wrapper">
+      <div class="transform-sample-3 rotateX">X</div>      
+      <div class="transform-sample-3 rotateY">Y</div>      
+      <div class="transform-sample-3 rotateZ">Z</div>     
+    </div>
+
+    <figure class='figure'>
+        <figcaption class='figure-caption'>図：サンプルのソース</figcaption>
+        <pre class="html"><code>&lt;div class="transform-sample-3-wrapper"&gt;
+  &lt;div class="transform-sample-3 rotateX"&gt;X&lt;/div&gt;      
+  &lt;div class="transform-sample-3 rotateY"&gt;Y&lt;/div&gt;      
+  &lt;div class="transform-sample-3 rotateZ"&gt;Z&lt;/div&gt;     
+&lt;/div&gt;</code></pre>
+    </figure>
+
+      <p>このサンプルのソースによってできるHTML要素にCSSを付加してサンプルのアニメーションを実現しましょう。</p>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> コピペは禁止です。
+      </div>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> まずはヒントを見ないでやってみましょう。
+      </div>
+
+      <div class="alert alert-info alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>情報</strong> できたと思ったら講師を呼んでください。
+      </div>
+
+    <form ng-controller="myController">
+        <label for="transthr" class="btn btn-info" ng-hide="transthr">ヒントを見る
+            <input style="display:none"id="transthr"type="checkbox" ng-model="transthr" />
+        </label>
+        <div ng-show="transthr">
+            <p class="page-header">ヒント</p>
+                  <figure class='figure'>
+                    <figcaption class='figure-caption'>図：CSSの一部</figcaption>
+                  <pre class="css"><code>.transform-sample-3{
+  display: inline-block;
+  background-color:rgb(49, 176, 213);
+  border:none;
+  width: 100px;
+  height: 100px;
+  *** : ***;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100px;
+  font-size: 4rem;
+  color: white;
+}
+.transform-sample-3-wrapper:hover .transform-sample-3.rotateX{
+  *** : ***;
+}
+.transform-sample-3-wrapper:hover .transform-sample-3.rotateY{
+  *** : ***;
+}
+.transform-sample-3-wrapper:hover .transform-sample-3.rotateZ{
+  *** : ***;
+}</code></pre>
+    </figure>
+        </div>
+    </form>
+</section>
+
+<section>
+    <h2 id="animation">animation</h2>
+    <p>animationプロパティは、HTML要素に<b>キーフレームアニメーション</b>を適用し、細かい動きのアニメーションを実装することができます。</p>
+    <p>animationプロパティでは、animation-name、 animation-duration、 animation-timing-function、 animation-delay、 animation-iteration-count、 animation-directionなどのプロパティの値をスペースで区切ることで複数指定できます。</p>
+    <p class="page-header"><b>キーフレームアニメーションとは</b></p>
+    <p>キーフレームアニメーションとはアニメーションの開始(0%)から終了(100%)までの任意の経過地点(キーフレーム)に
+プロパティを指定できるアニメーションのこと。</p>
+    <table class='table'>
+      <caption>表：animationプロパティの包括するプロパティ一覧</caption>
+      <thead>
+        <tr>
+          <th>プロパティ</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>animation-name</th>
+          <td>
+            HTML要素に適用するキーフレームアニメーションの名前を指定します。
+<pre class="css"><code>.sample-1{animation-name: expandWidth;}
+.sample-2{animation-name: beTransparent;}
+@keyframes expandWidth{
+  0%{width: 10%;}
+  50%{width: 20%;}
+  100%{width: 100%;}
+}
+@keyframes beTransparent{
+  0%{opacity: 1;}
+  50%{opacity: .5;}
+  100%{opacity: 0;}
+}</code></pre>
+          </td>
+        </tr>
+        <tr>
+          <th>animation-duration
+          </th>
+          <td>
+            キーフレームアニメーション一回分(0%から100%まで)の時間の長さを指定します。
+<pre class="css"><code>.sample-1{
+  animation-name: expandWidth;
+  animation-duration: 3s;
+}
+@keyframes expandWidth{
+  0%{width: 10%;}
+  50%{width: 20%;}
+  100%{width: 100%;}
+}</code></pre>
+          </td>
+        </tr>
+        <tr>
+          <th>animation-timing-function
+          </th>
+          <td>
+            キーフレームアニメーションのタイミング・進行割合を指定します。
+            <table class='table'>
+               <thead>
+                   <tr>
+                       <th>animation-timing-functionの値</th>
+                       <th></th>
+                   </tr>
+               </thead>
+               <tbody>
+                   <tr>
+                       <th>ease</th>
+                       <td>
+                         <ul>
+                           <li>初期値</li>
+                           <li>cubic-bezier(0.25, 0.1, 0.25, 1.0)と同じ</li>
+                           <li>進行割合の開始と完了を滑らかにします。</li>
+                         </ul>
+                       </td>
+                   </tr>
+                   <tr>
+                       <th>linear</th>
+                       <td>
+                         <ul>
+                           <li>cubic-bezier(0.0, 0.0, 1.0, 1.0)と同じ</li>
+                           <li>進行割合を一定にします。</li>
+                         </ul>
+                       </td>
+                   </tr>
+                   <tr>
+                       <th>ease-in</th>
+                       <td>
+                         <ul>
+                           <li>cubic-bezier(0.42, 0, 1.0, 1.0)と同じ</li>
+                           <li>進行割合の開始を遅くします。</li>
+                         </ul>
+                       </td>
+                   </tr>
+                   <tr>
+                       <th>ease-out</th>
+                       <td>
+                         <ul>
+                           <li>cubic-bezier(0, 0, 0.58, 1.0)と同じ</li>
+                           <li>進行割合の完了を遅くします。</li>
+                         </ul>                         
+                       </td>
+                   </tr>
+                   <tr>
+                       <th>ease-in-out</th>
+                       <td>
+                         <ul>
+                           <li>cubic-bezier(0.42, 0, 0.58, 1.0)と同じ</li>
+                           <li>進行割合の開始を完了を遅くします。</li>
+                         </ul>
+                       </td>
+                   </tr>
+                   <tr>
+                       <th>cubic-bezier(x1, x2, y1, y2)</th>
+                       <td>
+                         <ul>
+                           <li><a href="https://ja.wikipedia.org/wiki/%E3%83%99%E3%82%B8%E3%82%A7%E6%9B%B2%E7%B7%9A"target="_blank">3次ベジェ曲線</a>のP1とP2を (x1, y1, x2, y2) で指定します。</li>
+                         </ul>
+                       </td>
+                   </tr>
+                </tbody>
+            </table>
+<pre class="css"><code>.sample-1{
+  animation-name: expandWidth;
+  animation-duration: 3s;
+  animation-timing-function: ease;
+}
+@keyframes expandWidth{
+  0%{width: 10%;}
+  50%{width: 20%;}
+  100%{width: 100%;}
+}</code></pre>
+          </td>
+        </tr>
+        <tr>
+          <th>animation-delay
+          </th>
+          <td>
+            キーフレームアニメーションがいつ始まるかを指定します。
+            <pre class="css"><code>.sample-1{
+  animation-name: expandWidth;
+  animation-duration: 3s;
+  animation-timing-function: ease;
+}
+.sample-1.type-1{
+  /* アニメーションは1秒後に実行されます。 */
+  animation-delay: 1s;
+}
+.sample-1.type-2{
+  /* アニメーションは1秒経った経過地点から即実行されます。 */
+  animation-delay: -1s;
+}
+@keyframes expandWidth{
+  0%{width: 10%;}
+  50%{width: 20%;}
+  100%{width: 100%;}
+}</code></pre>
+          </td>
+        </tr>
+        <tr>
+          <th>animation-iteration-count
+          </th>
+          <td>
+            <p>キーフレームアニメーションの繰り返し回数を指定します。</p>
+            <table class='table'>
+               <thead>
+                   <tr>
+                       <th>指定できる値</th>
+                       <th>効果</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   <tr>
+                       <th>infinite</th>
+                       <td>無限に再生を繰り返します</td>
+                   </tr>
+                   <tr>
+                       <th>数値(自然数)</th>
+                       <td>数値と同じ回数、再生されます</td>
+                   </tr>
+                </tbody>
+            </table>
+            <pre class="css"><code>.sample-1{
+  animation-name: expandWidth;
+  animation-duration: 3s;
+  animation-timing-function: ease;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+}
+.sample-1.test{
+  animation-iteration-count: 1;  
+}
+@keyframes expandWidth{
+  0%{width: 10%;}
+  50%{width: 20%;}
+  100%{width: 100%;}
+}</code></pre>
+          </td>
+        </tr>
+        <tr>
+          <th>animation-direction
+          </th>
+          <td>
+            <p>キーフレームアニメーションを交互に反転再生させるかどうかを指定します</p>
+            <table class='table'>
+               <thead>
+                   <tr>
+                       <th>指定できる値</th>
+                       <th>効果</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   <tr>
+                       <th>normal</th>
+                       <td>
+                         <p>初期値</p>
+                         <p>普通方向の再生でアニメーションサイクルを繰り返します</p>
+                       </td>
+                   </tr>
+                   <tr>
+                       <th>alternate</th>
+                       <td>
+                         <p>奇数回では普通方向の再生、偶数回では逆方向の再生となって、アニメーションサイクルを繰り返します</p>
+                       </td>
+                   </tr>
+                </tbody>
+            </table>
+            <pre class="css"><code>.sample-1{
+  animation-name: expandWidth;
+  animation-duration: 3s;
+  animation-timing-function: ease;
+  animation-delay: 1s;
+  animation-direction:normal;
+}
+.sample-1.reverse{
+  animation-direction:alternate;
+}
+@keyframes expandWidth{
+  0%{width: 10%;}
+  50%{width: 20%;}
+  100%{width: 100%;}
+}</code></pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</section>
+
+
+<section>
+    <h3 id="animation-sample-1">animation sample 1</h3>
+    <p>サンプル</p>
+
+    <style>
+    .animation-sample-1{
+      display: inline-block;
+      background-color:rgb(49, 176, 213);
+      border:none;
+      width: 100px;
+      height: 100px;
+      transition: 3s;
+      border-radius: 50%;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 100px;
+      font-size: 4rem;
+      color: white;
+      animation: rotation 2s ease 0s infinite alternate;
+    }
+    @keyframes rotation {
+      0% {
+        transform: scale(.3);
+      }
+      50% {
+        transform: scale(.6) rotate(-180deg);
+        background: rgb(176, 213, 49)
+      }
+      100% {
+        transform: scale(1) rotate(360deg);
+        background: rgb(213, 49, 176);
+      }
+    }
+    </style>
+    
+    <div class="animation-sample-1-wrapper">
+      <div class="animation-sample-1">X</div>      
+      <div class="animation-sample-1">Y</div>      
+      <div class="animation-sample-1">Z</div>     
+    </div>
+
+    <figure class='figure'>
+        <figcaption class='figure-caption'>図：サンプルのソース</figcaption>
+        <pre class="html"><code>&lt;div class="animation-sample-1-wrapper"&gt;
+  &lt;div class="animation-sample-1"&gt;X&lt;/div&gt;      
+  &lt;div class="animation-sample-1"&gt;Y&lt;/div&gt;      
+  &lt;div class="animation-sample-1"&gt;Z&lt;/div&gt;     
+&lt;/div&gt;</code></pre>
+    </figure>
+
+    <p>このサンプルのソースによってできるHTML要素にCSSを付加してサンプルのアニメーションを実現しましょう。</p>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> コピペは禁止です。
+      </div>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> まずはヒントを見ないでやってみましょう。
+      </div>
+
+      <div class="alert alert-info alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>情報</strong> できたと思ったら講師を呼んでください。
+      </div>
+
+    <form ng-controller="myController">
+        <label for="animq" class="btn btn-info" ng-hide="animq">ヒントを見る
+            <input style="display:none"id="animq"type="checkbox" ng-model="animq" />
+        </label>
+        <div ng-show="animq">
+            <p class="page-header">ヒント</p>
+              <figure class='figure'>
+                <figcaption class='figure-caption'>図：CSSの一部</figcaption>
+              <pre class="css"><code>.animation-sample-1{
+  display: inline-block;
+  background-color:rgb(49, 176, 213);
+  border:none;
+  width: 100px;
+  height: 100px;
+  transition: 3s;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100px;
+  font-size: 4rem;
+  color: white;
+  animation: ***;
+}
+@keyframes rotation {
+  0% {
+    transform: ***;
+  }
+  50% {
+    transform: *** ***;
+    background: rgb(176, 213, 49)
+  }
+  100% {
+    transform: *** ***;
+    background: rgb(213, 49, 176);
+  }
+}</code></pre>
+    </figure>
+        </div>
+    </form>
+</section>
+
+
+<section>
+    <h3 id="animation-sample-2">animation sample 2</h3>
+    <p>サンプル</p>
+
+    <style>
+    .animation-sample-2-wrapper{
+      position: relative;
+      width: 200px;
+      height: 100px;
+    }
+    .animation-sample-2{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: 100px;
+      z-index: 2;
+      opacity: 0;
+    } 
+    .animation-sample-2 + label{
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-block;
+      background-color:rgb(49, 176, 213);
+      border:none;
+      width: 200px;
+      height: 100px;
+      transition: 3s;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 100px;
+      font-size: 4rem;
+      color: white;
+      -webkit-font-smoothing: antialiased
+    }
+    .animation-sample-2:checked, .animation-sample-2:checked + label{
+      animation: expand 1s linear 0s infinite normal;
+    }
+    @keyframes expand {
+      0% {
+        transform: scale(.5);
+      }
+      50% {
+        transform: scale(5);
+        opacity: .5;
+        font-size: 4rem;
+      }
+      100% {
+        transform: scale(10);
+        opacity: 0;
+        font-size: 4rem;
+      }
+    }
+    </style>
+    
+    <div class="animation-sample-2-wrapper">
+      <input type="checkbox" class="animation-sample-2">
+      <label for="">Click me!</label>
+    </div>
+
+    <figure class='figure'>
+        <figcaption class='figure-caption'>図：サンプルのソース</figcaption>
+      <pre class="html"><code>&lt;div class="animation-sample-2-wrapper"&gt;
+  &lt;input type="checkbox" class="animation-sample-2"&gt;
+  &lt;label for=""&gt;Click me!&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+
+    <p>このサンプルのソースによってできるHTML要素にCSSを付加してサンプルのアニメーションを実現しましょう。</p>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> コピペは禁止です。
+      </div>
+
+      <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>注意</strong> まずはヒントを見ないでやってみましょう。
+      </div>
+
+      <div class="alert alert-info alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>情報</strong> できたと思ったら講師を呼んでください。
+      </div>    
+
+    <form ng-controller="myController">
+        <label for="animw" class="btn btn-info" ng-hide="animw">ヒントを見る
+            <input style="display:none"id="animw"type="checkbox" ng-model="animw" />
+        </label>
+        <div ng-show="animw">
+            <p class="page-header">ヒント</p>
+              <figure class='figure'>
+                <figcaption class='figure-caption'>図：CSSの一部</figcaption>
+                <pre class="css"><code>.animation-sample-2-wrapper{
+  position: relative;
+  width: 200px;
+  height: 100px;
+}
+.animation-sample-2{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100px;
+  z-index: 2;
+  opacity: 0;
+} 
+.animation-sample-2 + label{
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  background-color:rgb(49, 176, 213);
+  border:none;
+  width: 200px;
+  height: 100px;
+  transition: 3s;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100px;
+  font-size: 4rem;
+  color: white;
+}
+.animation-sample-2:checked, .animation-sample-2:checked + label{
+  animation: *** ;
+}
+@keyframes expand {
+  0% {
+    *** : ***
+  }
+  50% {
+    *** : ***
+    font-size: 4rem;* scaleで文字が汚くならないために必要　*/
+  }
+  100% {
+    *** : ***
+    font-size: 4rem;/* scaleで文字が汚くならないために必要　*/
+  }
+}</code></pre>
+    </figure>
+        </div>
+    </form>
+</section>
+<section> 
+
+<h2 id="answer">答え合わせ</h2>
+
+<a href="https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/hrdtbs/CSSAnimation/tree/master/samples">答えはここからダウンロードしてください。</a>
+
+</section>
+
+
+            </section>
+        </div>
+</article>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script>
+angular.module('myApp', [])
+  .controller('myController', ['$scope', function($scope) {
+    $scope.show = false;
+  }]);
+</script>
+
+<script>
+    $(function(){
+      function loadExHtml(url, $obj){
+        $.ajax(url, {
+            timeout : 1000,
+            datatype:'html'
+        }).then(function(data){
+            var out_html = $($.parseHTML(data));
+            $obj.append(out_html);
+        })
+      };
+      loadExHtml("../samples/transition/sample1.html",$("#transition-sample-1"));
+      loadExHtml("../samples/transition/sample2.html",$("#transition-sample-2"));
+      loadExHtml("../samples/transition/sample3.html",$("#transition-sample-3"));
+    });
+</script>
+
