@@ -1,6 +1,6 @@
 # CSS Animation
 
-[Docs](https://eiminsasete.github.io/css-animation/)
+[Docs](https://hrdtbs.github.io/css-animation/)
 
 ## License
 GPL
