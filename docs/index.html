@@ -498,7 +498,7 @@ window.onload = function(){
         color: #FFF;
         text-shadow: 2px 3px 2px #333;
         text-decoration: none;
-        transition: all 0.2s linear 0;
+        transition: all 0.2s linear 0s;
     }
     .transition-sample-3 a:hover{
         left: 1px;
@@ -629,6 +629,17 @@ window.onload = function(){
             <p>transform関数のtranslate系は<i>K</i>軸方向に<i>d<sub>K</sub></i>だけ要素を平行移動させます。</p>
             <p>引数の単位は長さ系（px,em,remなど）とパーセント(%)です。<br>ただしZ軸ではパーセントは無効です。</p>
             <p>Z軸方向への操作にはtransform関数perspectiveの併用が必須です。</p>
+              
+              <h4>使用例</h4>
+              <pre><code class="css">
+.move_y {
+    transform: translateY(50%); /* 50%だけ下に移動します */
+}
+
+.move_x {
+    transform: translateX(500px); /* 500pxぶん右へ移動します */
+}
+			  </code></pre>
           </td>
         </tr>
         <tr>
@@ -649,6 +660,17 @@ window.onload = function(){
             <div class="translate-sample-1-wrapper">
               <div class="translate-sample-1-inner"></div>
             </div>
+              
+              <h4>使用例</h4>
+              <pre><code class="css">
+.double-size {
+	transform: scale(2); /* 大きさが2倍になります */
+}
+
+.half-size {
+    transform: scale(0.5); /* 大きさが0.5倍になります */
+}
+			  </code></pre>
           </td>
         </tr>
         <tr>
@@ -665,10 +687,20 @@ window.onload = function(){
           <td>
             <p><i>K=X,Y,Z</i>として引数<i>a<sub>K</sub></i>は<i>K</i>軸を軸とした回転する角度。</p>
             <p>transform関数のrotate系は<i>K</i>軸を軸として要素を<i>a<sub>K</sub></i>度回転させます。</p>
-            <p>引数の単位は角度(deg)です。</p>
+            <p>引数の単位は角度(deg)です。180degのように数値にdegを書く必要があります。</p>
             <div class="translate-sample-1-wrapper">
               <div class="translate-sample-1-inner"></div>
             </div>
+              <h4>使用例</h4>
+              <pre><code class="css">
+.one-rev {
+    transform: rotateX(90deg); /* X軸を中心に90度回転 */
+}
+
+.twice-rev {
+    transform: rotateZ(-720deg); /* Z軸を中心に-720度回転 */
+}
+              </code></pre>
           </td>
         </tr>
         <tr>
